@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function Home() {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -16,7 +15,7 @@ export default function Home() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email }),
       });
 
       const data = await res.json();
@@ -30,7 +29,6 @@ export default function Home() {
       setStatus("success");
       setMessage("You're on the list! We'll be in touch soon.");
       setEmail("");
-      setName("");
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Please try again.");
@@ -71,18 +69,6 @@ export default function Home() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg text-sm focus:outline-none transition"
-              style={{
-                background: "#141414",
-                border: "1px solid #2a2a2a",
-                color: "#e8e4de",
-              }}
-            />
             <input
               type="email"
               placeholder="Your email"
